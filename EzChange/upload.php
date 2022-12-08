@@ -1,37 +1,45 @@
 <?php
-// (A) ERROR - NO FILE UPLOADED
-if (!isset($_FILES["upfile"])) { exit("No file uploaded"); }
- 
-// (B) FLAGS & "SETTINGS"
-// (B1) ACCEPTED & UPLOADED MIME-TYPES
-$accept = ["xls", "xlsx"]; // all lower case
-$upext = strtolower(pathinfo($_FILES["upfile"]["name"], PATHINFO_EXTENSION));
- 
-// (B2) SOURCE & DESTINATION
-$source = $_FILES["upfile"]["tmp_name"];
-$destination = $_FILES["upfile"]["name"];
- 
-// (C) SAVE UPLOAD ONLY IF ACCEPTED FILE TYPE
-if (in_array($upext, $accept)) {
-  echo move_uploaded_file($source, $destination)
-    ? "OK" : "ERROR UPLOADING";
-} else { echo "$upext NOT ACCEPTED"; }
+$currentDirectory = getcwd();
+$uploadDirectory = "/uploads/";
 
-if (($_FILES['my_file']['name']!="")){
-  // Where the file is going to be stored
-    $target_dir = "upload/";
-    $file = $_FILES['my_file']['name'];
-    $path = pathinfo($file);
-    $filename = $path['filename'];
-    $ext = $path['extension'];
-    $temp_name = $_FILES['my_file']['tmp_name'];
-    $path_filename_ext = $target_dir.$filename.".".$ext;
-   
-  // Check if file already exists
-  if (file_exists($path_filename_ext)) {
-   echo "Sorry, file already exists.";
-   }else{
-   move_uploaded_file($temp_name,$path_filename_ext);
-   echo "Congratulations! File Uploaded Successfully.";
-   }
-  }
+$errors = []; // Store errors here
+
+$fileExtensionsAllowed = ".xlsx"; // These will be the only file extensions allowed
+
+$fileName = $_FILES['the_file']['name'];
+$fileSize = $_FILES['the_file']['size'];
+$fileTmpName  = $_FILES['the_file']['tmp_name'];
+$fileType = $_FILES['the_file']['type'];
+$fileExtension = strtolower(end(explode('.',$fileName)));
+
+$uploadPath = $currentDirectory . $uploadDirectory . basename($fileName);
+
+if (isset($_POST['submit'])) {
+
+    if (! in_array($fileExtension,$fileExtensionsAllowed)) {
+        $errors[] = "This file extension is not allowed. Please upload a JPEG or PNG file";
+    }
+
+    if ($fileSize > 4000000) {
+        $errors[] = "File exceeds maximum size (4MB)";
+    }
+
+    if (empty($errors)) {
+        $didUpload = move_uploaded_file($fileTmpName, $uploadPath);
+
+        if ($didUpload) {
+            echo "The file " . basename($fileName) . " has been uploaded";
+        }
+        else {
+            echo "An error occurred. Please contact the administrator.";
+        }
+    }
+
+    else {
+        foreach ($errors as $error) {
+            echo $error . "These are the errors." . "\n";
+        }
+    }
+
+}
+?>
