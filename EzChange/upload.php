@@ -1,30 +1,26 @@
 <?php
-$currentDirectory = getcwd();
-$uploadDirectory = "/uploads/";
+$currentDirectory = getcwd(); //GET CURRENT DIRECTORY
+$uploadDirectory = "/uploads/"; //UPLOAD TO 'UPLOADS' FOLDER
 
-$errors = []; // Store errors here
+$errors = []; //AN ARRAY TO STORE ALL ERRORS OCCUR
 
-$fileExtensionsAllowed = ".xlsx"; // These will be the only file extensions allowed
+//GET THE INFO OF THE SUBMITTED FILE.
+$fileName = $_FILES['upfile']['name'];
+$fileSize = $_FILES['upfile']['size'];
+$fileTmpName  = $_FILES['upfile']['tmp_name'];
+$fileType = $_FILES['upfile']['type'];
 
-$fileName = $_FILES['the_file']['name'];
-$fileSize = $_FILES['the_file']['size'];
-$fileTmpName  = $_FILES['the_file']['tmp_name'];
-$fileType = $_FILES['the_file']['type'];
-$fileExtension = strtolower(end(explode('.',$fileName)));
-
+//SPECIFY THE UPLOAD PATH
 $uploadPath = $currentDirectory . $uploadDirectory . basename($fileName);
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['submit'])) { //RECEIVE EXCEL FILE FROM HTML
 
-    if (! in_array($fileExtension,$fileExtensionsAllowed)) {
-        $errors[] = "This file extension is not allowed. Please upload a JPEG or PNG file";
+    if ($fileSize > 10000000) { //LIMIT THE FILE SIZE <10MB
+        $errors[] = "File exceeds maximum size (10MB).";
+        echo "<br>";
     }
 
-    if ($fileSize > 4000000) {
-        $errors[] = "File exceeds maximum size (4MB)";
-    }
-
-    if (empty($errors)) {
+    if (empty($errors)) { //IF NO ERROR EXISTS, THEN WILL START UPLOAD EXCEL FILE
         $didUpload = move_uploaded_file($fileTmpName, $uploadPath);
 
         if ($didUpload) {
@@ -35,11 +31,10 @@ if (isset($_POST['submit'])) {
         }
     }
 
-    else {
+    else { //LIST OUT ALL THE ERRORS IF THEY EXISTS
         foreach ($errors as $error) {
             echo $error . "These are the errors." . "\n";
         }
     }
-
 }
 ?>
