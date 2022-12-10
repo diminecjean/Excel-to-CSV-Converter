@@ -303,7 +303,7 @@ ul li a:hover{
     align-items: center;
     justify-content: space-around;
     position: absolute;
-    bottom: -80px;
+    bottom: 0px;
 }
 
 .bubble img:nth-child(1){
@@ -436,12 +436,12 @@ ul li a:hover{
         opacity: 0;
     }
 
-    50%{
-        opacity: 0.5;
+    30%{
+        opacity: 1;
     }
 
-    70%{
-        opacity: 0.5;
+    60%{
+        opacity: 0.2;
     }
 
     100%{
