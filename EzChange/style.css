@@ -292,6 +292,55 @@ ul li a:hover{
     color: #00ffbfe1;
 }
 
+.bubble img{
+    width: 50px;
+    animation: bubble 8s linear infinite;
+}
+
+.bubble{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: absolute;
+    bottom: -80px;
+}
+
+.bubble img:nth-child(1){
+    width: 80px;
+    animation-delay: 2s;
+}
+
+.bubble img:nth-child(2){
+    width: 50px;
+    animation-delay: 8s;
+}
+
+.bubble img:nth-child(3){
+    width: 65px;
+    animation-delay: 1s;
+}
+
+.bubble img:nth-child(4){
+    width: 40px;
+    animation-delay: 3s;
+}
+
+.bubble img:nth-child(5){
+    width: 50px;
+    animation-delay: 2s;
+}
+
+.bubble img:nth-child(6){
+    width: 80px;
+    animation-delay: 5s;
+}
+
+.bubble img:nth-child(7){
+    width: 60px;
+    animation-delay: 7s;
+}
+
 .about .image{
     flex:1 1 40rem;
 }
@@ -381,7 +430,26 @@ ul li a:hover{
     top: 0;
 }
 
-/*Responsive screen*/
+@keyframes bubble{
+    0%{
+        transform:translateY(0);
+        opacity: 0;
+    }
+
+    50%{
+        opacity: 0.5;
+    }
+
+    70%{
+        opacity: 0.5;
+    }
+
+    100%{
+        transform:translateY(-80vh);
+        opacity: 0;
+    }
+}
+
 @media screen and (max-width:1200px) {
     /*Normal Screen*/
 
@@ -611,5 +679,4 @@ ul li a:hover{
         margin-left: 38px;
     } 
 
-}
-
+}  
