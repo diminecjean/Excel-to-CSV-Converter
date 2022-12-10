@@ -313,7 +313,7 @@ ul li a:hover{
 
 .bubble img:nth-child(2){
     width: 50px;
-    animation-delay: 8s;
+    animation-delay: 4s;
 }
 
 .bubble img:nth-child(3){
